@@ -12,18 +12,29 @@
         Title of Movie:
         <input
           type="text"
+          required
           id="title"
           placeholder="What is the movie's title?"
         />
       </label>
       <label>
         Rating:
-        <input type="number" id="rating" min="0" max="10" value="10" />
+        <input type="number" id="rating" required min="0" max="10" value="10" />
       </label>
       <button id="submit">Submit</button>
     </form>
     <div id="movies">
       <h3>Rated Movies</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Rating</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="movie-table-body"></tbody>
+      </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script>
@@ -42,15 +53,17 @@
       $("form").on("submit", function (event) {
         event.preventDefault();
         if ($("input")[0].value.length > 1 && $("input")[1].value) {
-          $("#movies").append(`
-            <div> Title: ${$("input")[0].value} Rating: ${$("input")[1].value}
-                <button class='delete'>Delete!</button>
-            </div>`);
+          $("#movie-table-body").append(`
+            <tr> 
+              <td>${$("input")[0].value}</td>
+              <td>${$("input")[1].value}</td>
+              <td><button class='delete'>Delete!</button></td>
+            </tr>`);
         }
       });
       $("#movies").on("click", function (event) {
         if (event.target.className === "delete") {
-          event.target.parentNode.remove();
+          event.target.parentNode.parentNode.remove();
         }
       });
     </script>
